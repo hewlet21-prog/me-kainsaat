@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -9,8 +9,8 @@ const menuItems = [
   { name: 'Hizmetler', href: '/services' },
   { name: 'Projeler', href: '/projects' },
   { name: 'Kariyer', href: '/career' },
-  { name: 'Hakkimizda', href: '/about' },
-  { name: 'Iletisim', href: '/contact' },
+  { name: 'Hakkımızda', href: '/about' },
+  { name: 'İletişim', href: '/contact' },
 ]
 
 export default function Navbar() {
@@ -41,10 +41,10 @@ export default function Navbar() {
 
           <div className="flex min-w-0 flex-col">
             <span className="whitespace-nowrap font-display text-lg font-black uppercase tracking-[0.22em] text-white sm:text-[1.35rem] xl:text-[1.55rem]">
-              ME-KA INSAAT
+              ME-KA İNŞAAT
             </span>
             <span className="mt-1 hidden whitespace-nowrap text-[0.68rem] font-semibold uppercase tracking-[0.34em] text-stone-300/95 xl:block">
-              Insaat ve Proje Cozumleri
+              İnşaat ve Proje Çözümleri
             </span>
           </div>
         </Link>
