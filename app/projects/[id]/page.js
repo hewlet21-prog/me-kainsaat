@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
     project.title,
     `${project.location} ${project.category}`,
     `${project.location} ${project.area}`,
-    `${project.location} insaat projesi`,
+    `${project.location} inşaat projesi`,
     ...project.highlights,
   ]
 

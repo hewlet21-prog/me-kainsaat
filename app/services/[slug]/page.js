@@ -1,73 +1,149 @@
-﻿'use client'
-
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import ScrollReveal from '@/components/ScrollReveal'
-import { serviceBySlug } from '@/lib/content'
+import { serviceBySlug, services } from '@/lib/content'
+import { siteConfig } from '@/lib/site'
 
-export default function ServiceDetailPage() {
-  const params = useParams()
-  const service = serviceBySlug[params.slug]
+export function generateStaticParams() {
+  return services.map((service) => ({ slug: service.slug }))
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params
+  const service = serviceBySlug[slug]
 
   if (!service) {
-    return (
-      <main className="pt-32 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Hizmet Bulunamadi</h1>
-          <Link href="/services" className="btn-primary inline-block">Hizmetlere Don</Link>
-        </div>
-      </main>
-    )
+    return {
+      title: 'Hizmet Bulunamadi | ME-KA Insaat',
+    }
+  }
+
+  return {
+    title: service.seoTitle,
+    description: service.seoDescription,
+    keywords: service.keywords,
+    alternates: {
+      canonical: `/services/${service.slug}`,
+    },
+    openGraph: {
+      title: service.seoTitle,
+      description: service.seoDescription,
+      url: `${siteConfig.siteUrl}/services/${service.slug}`,
+      images: [{ url: service.image, alt: service.imageAlt }],
+    },
+  }
+}
+
+export default async function ServiceDetailPage({ params }) {
+  const { slug } = await params
+  const service = serviceBySlug[slug]
+
+  if (!service) {
+    notFound()
+  }
+
+  const serviceSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: service.title,
+    name: `${service.title} Erzurum`,
+    description: service.seoDescription,
+    areaServed: {
+      '@type': 'City',
+      name: 'Erzurum',
+    },
+    provider: {
+      '@type': 'ConstructionCompany',
+      name: siteConfig.shortName,
+      url: siteConfig.siteUrl,
+      telephone: siteConfig.phoneDisplay,
+    },
+    image: [`${siteConfig.siteUrl}${service.image}`],
+    url: `${siteConfig.siteUrl}/services/${service.slug}`,
+  }
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: service.faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
   }
 
   return (
     <main className="pt-20">
-      <section className="relative h-[40vh] bg-gradient-to-r from-primary to-gray-dark flex items-center">
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 container-custom">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
+      <section className="relative flex min-h-[44vh] items-center bg-gradient-to-r from-primary to-gray-dark">
+        <div className="absolute inset-0 bg-black/45" />
+        <div className="container-custom relative z-10">
           <ScrollReveal>
-            <Link href="/services" className="inline-flex items-center text-white/80 hover:text-accent mb-4 transition-colors">
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Hizmetlere Don
-            </Link>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">{service.title}</h1>
-            <p className="text-white/90 text-lg max-w-2xl">{service.shortDescription}</p>
+            <div className="inline-flex rounded-full border border-accent/30 bg-accent/12 px-3 py-1 text-xs font-semibold text-accent">
+              {service.tag}
+            </div>
+            <h1 className="mb-4 mt-5 text-3xl font-extrabold text-white md:text-4xl lg:text-5xl">{service.seoTitle}</h1>
+            <p className="max-w-3xl text-lg text-white/95">{service.shortDescription}</p>
           </ScrollReveal>
         </div>
       </section>
 
-      <section className="py-20 bg-white dark:bg-primary">
+      <section className="bg-white py-20 dark:bg-primary">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
             <ScrollReveal direction="left" className="lg:col-span-2">
               <div>
-                <div className="relative h-[320px] md:h-[420px] rounded-xl overflow-hidden shadow-xl mb-8">
-                  <Image src={service.image} alt={service.title} fill sizes="(max-width: 768px) 100vw, 66vw" className="object-cover" />
+                <div className="relative mb-8 h-[320px] overflow-hidden rounded-xl shadow-xl md:h-[420px]">
+                  <Image src={service.image} alt={service.imageAlt} fill sizes="(max-width: 768px) 100vw, 66vw" className="object-cover" />
                 </div>
 
-                <h2 className="text-2xl font-bold mb-4 dark:text-white">Hizmet Detayi</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{service.fullDescription}</p>
+                <h2 className="mb-4 text-2xl font-bold text-white">{service.introHeading}</h2>
+                <p className="mb-6 text-base leading-8 text-stone-200">{service.introText}</p>
 
-                <h3 className="text-xl font-bold mt-8 mb-4 dark:text-white">Uygulama Akisi</h3>
+                <h3 className="mb-4 text-2xl font-bold text-white">Hizmet detayi</h3>
+                <p className="mb-8 text-base leading-8 text-stone-200">{service.fullDescription}</p>
+
+                <div className="mb-10 rounded-[28px] border border-white/12 bg-white/8 p-6">
+                  <div className="text-sm font-bold text-accent">Bu hizmette odaklandigimiz alanlar</div>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {service.features.map((feature) => (
+                      <div key={feature} className="flex items-start gap-3 text-sm leading-7 text-stone-200">
+                        <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-accent" />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <h3 className="mb-4 mt-8 text-xl font-bold text-white">Uygulama akisi</h3>
                 <div className="space-y-4">
                   {service.process.map((item, idx) => (
-                    <div key={item.step} className="flex gap-4 items-start">
-                      <div className="w-8 h-8 bg-accent text-primary rounded-full flex items-center justify-center font-bold shrink-0">{idx + 1}</div>
+                    <div key={item.step} className="flex items-start gap-4">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent font-bold text-primary">{idx + 1}</div>
                       <div>
-                        <h4 className="font-semibold dark:text-white">{item.step}</h4>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm">{item.desc}</p>
+                        <h4 className="font-semibold text-white">{item.step}</h4>
+                        <p className="text-sm leading-7 text-stone-300">{item.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
                   {service.gallery.map((image, idx) => (
-                    <div key={image} className="relative h-40 rounded-xl overflow-hidden">
-                      <Image src={image} alt={`${service.title} galeri ${idx + 1}`} fill sizes="(max-width: 768px) 100vw, 22vw" className="object-cover" />
+                    <div key={image} className="relative h-40 overflow-hidden rounded-xl">
+                      <Image
+                        src={image}
+                        alt={`${service.title} Erzurum gorseli ${idx + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 22vw"
+                        className="object-cover"
+                      />
                     </div>
                   ))}
                 </div>
@@ -75,21 +151,40 @@ export default function ServiceDetailPage() {
             </ScrollReveal>
 
             <ScrollReveal direction="right">
-              <div className="bg-gray-light dark:bg-gray-dark rounded-xl p-6 sticky top-24">
-                <h3 className="text-xl font-bold mb-4 dark:text-white">Sahada Neler Yapiyoruz?</h3>
-                <ul className="space-y-3 mb-6">
+              <div className="sticky top-24 rounded-2xl border border-white/12 bg-white/8 p-6 backdrop-blur-sm dark:bg-slate-900/90">
+                <h3 className="mb-4 text-xl font-bold text-white">Sahada neler yapiyoruz?</h3>
+                <ul className="mb-6 space-y-3">
                   {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                      <svg className="w-5 h-5 text-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <li key={feature} className="flex items-center gap-2 text-stone-200">
+                      <svg className="h-5 w-5 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                       {feature}
                     </li>
                   ))}
                 </ul>
-                <Link href="/contact" className="btn-primary w-full text-center inline-block">Teklif Al</Link>
+                <Link href="/contact" className="btn-primary inline-block w-full text-center">
+                  Teklif al
+                </Link>
               </div>
             </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#050916] py-16">
+        <div className="container-custom">
+          <div className="mb-8 max-w-3xl">
+            <div className="text-sm font-bold text-accent">Sik sorulan sorular</div>
+            <h2 className="mt-4 text-3xl font-bold text-white">{service.title} Erzurum hakkinda sorular</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {service.faq.map((item) => (
+              <div key={item.question} className="rounded-[24px] border border-white/12 bg-white/8 p-6">
+                <h3 className="text-lg font-semibold text-white">{item.question}</h3>
+                <p className="mt-3 text-sm leading-7 text-stone-200">{item.answer}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

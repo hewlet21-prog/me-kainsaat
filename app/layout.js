@@ -1,4 +1,4 @@
-﻿import './globals.css'
+import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import FloatingWhatsApp from '@/components/FloatingWhatsApp'
@@ -9,7 +9,7 @@ const structuredData = {
   '@type': 'ConstructionCompany',
   name: siteConfig.name,
   alternateName: siteConfig.shortName,
-  image: '/videos/promo.mp4',
+  image: `${siteConfig.siteUrl}/gallery/2.jpg`,
   description: siteConfig.description,
   telephone: '+90 538 486 58 40',
   email: siteConfig.email,
@@ -36,19 +36,26 @@ const structuredData = {
   ],
   knowsAbout: siteConfig.businessCategories,
   keywords: siteConfig.seoKeywords.join(', '),
-  url: '/',
+  url: siteConfig.siteUrl,
 }
 
 export const metadata = {
+  metadataBase: new URL(siteConfig.siteUrl),
   title: siteConfig.title,
   description: siteConfig.description,
   keywords: [...siteConfig.seoKeywords, ...siteConfig.businessCategories],
   robots: { index: true, follow: true },
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,
     locale: 'tr_TR',
     type: 'website',
+    url: siteConfig.siteUrl,
+    siteName: siteConfig.shortName,
+    images: [{ url: '/gallery/2.jpg', alt: 'ME-KA Insaat Erzurum saha calismasi' }],
   },
 }
 

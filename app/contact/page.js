@@ -119,7 +119,7 @@ export default function ContactPage() {
               </div>
 
               <div className="premium-panel overflow-hidden">
-                <iframe title="ME-KA Insaat Erzurum Konum" src={siteConfig.mapsEmbedSrc} className="h-[360px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+                <iframe title="ME-KA İnşaat Erzurum Konum" src={siteConfig.mapsEmbedSrc} className="h-[360px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
               </div>
             </motion.div>
           </div>

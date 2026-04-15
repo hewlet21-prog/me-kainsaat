@@ -16,7 +16,7 @@ export default function FloatingWhatsApp() {
                 WhatsApp Destek
               </p>
               <p className="mt-2 text-sm leading-6 text-stone-300">
-                Beton, hafriyat, agrega, demir ve ihale süreçleri için hızlı dönüş alın.
+                Erzurum beton, hafriyat, agrega, bitüm ve ihale süreçleri için hızlı dönüş alın.
               </p>
             </div>
             <button

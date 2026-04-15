@@ -7,7 +7,7 @@ const posts = [
   },
   {
     title: 'Erzurum hafriyat ve yol yapiminda kontrollu saha yonetimi',
-    text: 'Hafriyat, dolgu, platform ve asfalt uygulamalarinda makine plani ile trafik guvenligini ayni anda dusunmek gerekir. ME-KA Insaat bu dengeyi saha koordinasyonuyla kurar.',
+    text: 'Hafriyat, dolgu, platform, bitum ve asfalt uygulamalarinda makine plani ile trafik guvenligini ayni anda dusunmek gerekir. ME-KA İnşaat bu dengeyi saha koordinasyonuyla kurar.',
   },
   {
     title: 'Erzurum tunel, dere islahi ve tas islerinde kritik basliklar',

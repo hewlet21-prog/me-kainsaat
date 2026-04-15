@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -21,10 +21,10 @@ export default function ServicesSection() {
         >
           <span className="section-kicker">Hizmet Alanlari</span>
           <h2 className="section-title">
-            Sahaya uygun <span className="text-gradient">gercek uygulama kalemleri</span>
+            Erzurum odakli <span className="text-gradient">uzman saha hizmetleri</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-stone-300 md:text-base">
-            Yol yapimi, beton agrega, tunel, dere islahi, tas isleri, bordur-kaldirim ve buyuk altyapi uygulamalarini tek merkezden koordine ediyoruz.
+            Insaat, yikim, hafriyat, agrega, beton ve kaldirim hizmetlerimizi her biri icin ayri SEO sayfasi ile sunuyoruz.
           </p>
         </motion.div>
 
@@ -40,7 +40,7 @@ export default function ServicesSection() {
               <div className="relative h-60 overflow-hidden">
                 <Image
                   src={service.image}
-                  alt={service.title}
+                  alt={service.imageAlt}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition duration-500 group-hover:scale-105"
@@ -65,7 +65,7 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-5">
-                  <div className="text-xs uppercase tracking-[0.28em] text-stone-400">01 / Servis</div>
+                  <div className="text-xs uppercase tracking-[0.28em] text-stone-400">Erzurum / Hizmet</div>
                   <Link href={`/services/${service.slug}`} className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-accent transition hover:text-[#f0c56f]">
                     Detaylar
                     <svg className="h-4 w-4 transition group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

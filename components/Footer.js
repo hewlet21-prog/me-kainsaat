@@ -1,21 +1,13 @@
 import Link from 'next/link'
 import { siteConfig } from '@/lib/site'
+import { services } from '@/lib/content'
 
 const quickLinks = [
   { name: 'Ana Sayfa', href: '/' },
   { name: 'Hizmetler', href: '/services' },
   { name: 'Projeler', href: '/projects' },
-  { name: 'Hakkımızda', href: '/about' },
-  { name: 'İletişim', href: '/contact' },
-]
-
-const serviceLinks = [
-  'ERZURUM BETON',
-  'ERZURUM AGREGA',
-  'ERZURUM C35',
-  'ERZURUM C25',
-  'ERZURUM INSAAT',
-  'ERZURUM IHALE',
+  { name: 'Hakkimizda', href: '/about' },
+  { name: 'Iletisim', href: '/contact' },
 ]
 
 export default function Footer() {
@@ -35,14 +27,13 @@ export default function Footer() {
                   {siteConfig.shortName}
                 </h3>
                 <p className="text-xs uppercase tracking-[0.3em] text-stone-400">
-                  Erzurum İnşaat ve Proje Çözümleri
+                  Erzurum Insaat ve Saha Cozumleri
                 </p>
               </div>
             </div>
 
             <p className="mt-5 max-w-md text-sm leading-7 text-stone-400">
-              Beton, hafriyat, agrega, demir ve ihale süreçlerinde Erzurum merkezli planlı saha
-              desteği sunuyoruz.
+              Erzurum insaat, yikim, hafriyat, agrega, beton ve kaldirim hizmetlerinde planli saha destegi sunuyoruz.
             </p>
 
             <div className="mt-6 flex gap-3">
@@ -64,7 +55,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">Hızlı Linkler</h4>
+            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">Hizli Linkler</h4>
             <ul className="mt-5 space-y-3">
               {quickLinks.map((item) => (
                 <li key={item.href}>
@@ -79,16 +70,18 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">Hizmetler</h4>
             <ul className="mt-5 space-y-3">
-              {serviceLinks.map((item) => (
-                <li key={item} className="text-sm text-stone-400">
-                  {item}
+              {services.map((service) => (
+                <li key={service.slug}>
+                  <Link href={`/services/${service.slug}`} className="text-sm text-stone-400 transition hover:text-accent">
+                    {service.title} Erzurum
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">İletişim</h4>
+            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-white">Iletisim</h4>
             <ul className="mt-5 space-y-3 text-sm text-stone-400">
               <li>{siteConfig.address}</li>
               <li>{siteConfig.phoneDisplay}</li>
@@ -98,8 +91,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 py-6 text-center text-sm text-stone-500">
-          <p>&copy; {new Date().getFullYear()} {siteConfig.shortName}. Tüm hakları saklıdır.</p>
+        <div className="flex flex-col gap-3 border-t border-white/10 py-6 text-sm text-stone-500 md:flex-row md:items-center md:justify-between">
+          <p>&copy; {new Date().getFullYear()} {siteConfig.shortName}. Tum haklari saklidir.</p>
+          <a
+            href="https://xn--erzurumyazlm-b5bb.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-right text-stone-400 transition hover:text-accent"
+          >
+            Created By Erzurum Yazilim
+          </a>
         </div>
       </div>
     </footer>

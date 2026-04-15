@@ -10,7 +10,7 @@ const testimonials = [
     name: 'Ahmet Yilmaz',
     position: 'CEO, Yilmaz Holding',
     content:
-      'ME-KA Insaat ile yuruttugumuz projede surec boyunca hizli geri donus, net koordinasyon ve zamaninda teslim aldik.',
+      'ME-KA İnşaat ile yürüttüğümüz projede süreç boyunca hızlı geri dönüş, net koordinasyon ve zamanında teslim aldık.',
     rating: 5,
   },
   {
